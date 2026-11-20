@@ -1,0 +1,14 @@
+# Every check on. For break-mode demos, run `make demo-off` locally instead:
+# break mode is never exposed through Docker's published ports.
+services:
+  api:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "127.0.0.1:6379:6379"

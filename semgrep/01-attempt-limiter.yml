@@ -1,0 +1,36 @@
+rules:
+  - id: sensitive-endpoint-without-attempt-limiter
+    languages: [python]
+    severity: WARNING
+    message: >-
+      Sensitive endpoint '$PATH' has no attempt limiter. Login, OTP, reset and
+      pickup-code endpoints must call limiter.check(...) before verifying the
+      secret (Pattern 01 · Attempt Limiter, CWE-307).
+    metadata:
+      pattern: "01 Attempt Limiter"
+      cwe: "CWE-307: Improper Restriction of Excessive Authentication Attempts"
+    patterns:
+      - pattern-either:
+          - pattern: |
+              @$ROUTER.post($PATH, ...)
+              def $FUNC(...):
+                  ...
+          - pattern: |
+              @$ROUTER.post($PATH, ...)
+              async def $FUNC(...):
+                  ...
+      - metavariable-regex:
+          metavariable: $PATH
+          regex: (?i).*(login|signin|verify|otp|reset|pickup|code).*
+      - pattern-not: |
+          @$ROUTER.post($PATH, ...)
+          def $FUNC(...):
+              ...
+              $L.check(...)
+              ...
+      - pattern-not: |
+          @$ROUTER.post($PATH, ...)
+          async def $FUNC(...):
+              ...
+              $L.check(...)
+              ...
