@@ -17,7 +17,8 @@ attack:
 	python attacks/$(PATTERN)_*.py
 
 test:
-	pytest -q
+	# pytest -q
+	PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 pytest -q
 
 semgrep:
 	semgrep scan --config semgrep/ --error --metrics=off app/ secure_patterns/

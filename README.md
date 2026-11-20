@@ -18,7 +18,7 @@ make demo               && make attack PATTERN=01   # BLOCKED after 5 wrong gues
 ```bash
 git clone https://github.com/jkayodeabusi/secure-locker-patterns.git
 cd secure-locker-patterns
-python -m venv .venv && source .venv/bin/activate
+python3 -m venv .venv && source .venv/bin/activate   # Python 3.12, 3.13 or 3.14
 make install
 make test            # every pattern: attack blocked with the check on, succeeds with it off
 make demo            # terminal 1: the API on 127.0.0.1:8000, every check on
